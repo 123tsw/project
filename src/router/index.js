@@ -3,7 +3,6 @@ import Index from '../views/Index.vue'
 import User from '../views/User.vue'
 import Userlist from '../views/Userlist.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,13 +13,15 @@ const router = createRouter({
       children:[ 
         {
           path: 'user',
-          name: 'user',
+          name: 'user',//看病开诊
           component: User
+          
         },
         {
           path:'user/list',
-          name:'userlist',
-          component:Userlist
+          name:'userlist', //患者库
+          component:Userlist,
+          
         }
       ]
     }

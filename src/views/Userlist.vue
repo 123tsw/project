@@ -27,7 +27,13 @@
                 </el-col>
                 
             </el-row>
-        </el-form>               
+        </el-form> 
+        <el-dialog
+            v-model="dialogVisible"
+            title="选择挂号患者"
+            width="200px"
+        >
+        </el-dialog>              
     </div>    
     
     <!-- 表格 -->
