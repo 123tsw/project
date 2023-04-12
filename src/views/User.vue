@@ -6,33 +6,33 @@
             <el-aside width="400px">
                 <h2 style="padding: 10px;padding-bottom: 0;">患者档案</h2>
                 <el-form 
-                :model="form" 
+                :model="userform" 
                 label-width="100px"
                 ref="formRef"
                 class="el-form-left"
                 >
                 <el-form-item label="身份证号" prop="hzsfzh">
-                    <el-input v-model="form.hzsfzh" disabled/>
+                    <el-input v-model="userform.hzsfzh" disabled/>
                 </el-form-item>    
                 <el-form-item label="患者姓名" prop="HZXM">
-                    <el-input v-model="form.HZXM" disabled/>
+                    <el-input v-model="userform.HZXM" disabled/>
                     <el-button style="margin-left: 5px;" @click="handleHZXM"><el-icon><Avatar /></el-icon></el-button>
                 </el-form-item>
                  <el-form-item label="患者年龄" prop="HZNL">
-                    <el-input v-model="form.HZNL" />
+                    <el-input v-model="userform.HZNL" />
                 </el-form-item>     
                 <el-form-item label="性别" prop="HZXB">
-                    <el-radio-group v-model="form.HZXB" class="ml-4">
+                    <el-radio-group v-model="userform.HZXB" class="ml-4">
                         <el-radio label="男" size="large">男</el-radio>
                         <el-radio label="女" size="large">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="电话号码" prop="BRDH">
-                    <el-input v-model="form.BRDH" disabled/>
+                    <el-input v-model="userform.BRDH" disabled/>
                 </el-form-item>
                 <el-form-item label="地址信息" prop="JTZZ">
                     <el-input 
-                    v-model="form.JTZZ" 
+                    v-model="userform.JTZZ" 
                     type="textarea" 
                     placeholder="请输入地址信息"  
                     maxlength="30"
@@ -47,7 +47,7 @@
                 show-word-limit
                 
                 >
-                <el-input v-model="form.GMS" type="textarea" placeholder="请输入过敏史" />
+                <el-input v-model="userform.GMS" type="textarea" placeholder="请输入过敏史" />
                 </el-form-item>      
                 </el-form>
                 <el-dialog
@@ -74,7 +74,7 @@
                 <el-header>
                     <div>
                         <el-text class="mx-1" type="success" >病例id：</el-text>
-                        <el-text v-model="form.blid">{{form.blid}}</el-text><!-- 到时候再传数据 -->
+                        <el-text v-model="form1.blid">{{form1.blid}}</el-text><!-- 到时候再传数据 -->
                     </div>
                     <div>
                         <el-button type="success" plain><el-icon><Check /></el-icon><span>保存病例</span></el-button>
@@ -92,7 +92,7 @@
                                 <el-col :span="12">
                                     <el-form-item label="发病日期">
                                         <el-date-picker
-                                            v-model="form.jzrq"
+                                            v-model="userform.jzrq"
                                             type="date"
                                             placeholder="选择一个好日子"
                                         />
@@ -100,18 +100,18 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="接诊类型">
-                                <el-input  v-model="form.JZLX" />
+                                <el-input  v-model="form1.JZLX" />
                                 </el-form-item>
                                 </el-col>
                             </el-row>
                             <el-form-item label="主诉">
-                                <el-input v-model="form.zs" type="textarea" />
+                                <el-input v-model="form1.zs" type="textarea" />
                             </el-form-item>
                             <el-form-item label="诊断信息">
-                                <el-input v-model="form.zs" type="textarea" />
+                                <el-input v-model="form1.zs" type="textarea" />
                             </el-form-item>
                             <el-form-item label="医生建议">
-                                <el-input v-model="form.zs" type="textarea" />
+                                <el-input v-model="form1.zs" type="textarea" />
                             </el-form-item>
                             </el-form>
                         </el-tab-pane>
@@ -132,9 +132,42 @@
                         <el-table-column property="date" label="序号" />
                         <el-table-column property="name" label="药品名称" />
                         <el-table-column property="address" label="数量" />
-                        <el-table-column property="address" label="金额" />
+                        <el-table-column property="address" label="单价(元)" />
+                        <el-table-column property="address" label="金额(元)" />
                     </el-table>
-                    <el-button type="primary" class="medicine-button"><el-icon><Plus /></el-icon><span>添加药品项</span></el-button>
+                    <el-button type="primary" class="medicine-button" @click="handleYaopin"><el-icon><Plus /></el-icon><span>添加药品项</span></el-button>
+                    </el-dialog>
+                    <el-dialog
+                    v-model="dialogVisible2"
+                    center
+                    title="药品列表"
+                    >
+                    <el-form :model="form1" label-width="90px">
+                        <el-row>
+                            <el-col :span="14">
+                                <el-form-item label="关键字">
+                                    <el-input v-model="form1.GJZ" placeholder="请输入关键字"/>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-button type="primary" style="margin-left: 5px;"><el-icon><search /></el-icon>搜索</el-button>
+                                <el-button type="primary"><el-icon><search /></el-icon>重置</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-table
+                            ref="multipleTableRef"
+                            :data="medicineList"
+                            style="width: 100%"
+                            @selection-change="handleSelectionChange"
+                        >
+                            <el-table-column type="selection" width="55" />
+                            <el-table-column label="药品ID" width="120" prop="YPID">
+                            <template #default="scope">{{ scope.row.date }}</template>
+                            </el-table-column>
+                            <el-table-column prop="YPMC" label="药品名称" width="120" />
+                            <el-table-column prop="KCL" label="库存量" show-overflow-tooltip />
+                        </el-table>
+                    </el-form>
                     </el-dialog>
                    
                 </el-main>
@@ -147,7 +180,7 @@ import {ref,reactive,computed} from 'vue'
 import { ElMessage } from 'element-plus';
 
 const formRef =ref()
-const form =reactive({
+const userform =reactive({
     hzsfzh:'2106231xxxx1',
     HZXM:'张三',
     HZXB:'女',
@@ -156,34 +189,36 @@ const form =reactive({
     JTZZ:'辽宁省大连市',
     jzrq:new Date(),
     GMS:'青霉素过敏',
+})
+const form1 =reactive({
     JZLX:'初诊',
     zs:'1',
-    blid:'23'
+    blid:'23',
+    GJZ:'',
+    YPID:'',
+    YPMC:'',
+    KCL:''
 })
-/* const options =[
+const medicineList =[
     {
-        value:'父女'
+        'YPID':'1',
+        'YPMC':'青霉素',
+        'KCL':'9999'
     },
     {
-        value:'父子'
+        'YPID':'2',
+        'YPMC':'青霉素',
+        'KCL':'9999'
     },
-    {
-        value:'母子'
-    },
-    {
-        value:'母女'
-    },
-    {
-        value:'配偶'
-    },
-    {
-        value:'其他'
-    },
-] */
+]
 const dialogVisible = ref(false)
-const dialogVisible1 = ref(false)
+const dialogVisible1 = ref(false) 
+const dialogVisible2 = ref(false) 
 const orderType =ref('')
 const activeName =ref('first')
+// 全选
+const multipleTableRef = ref()
+const multipleSelection = ref([])
 // ---------------------------方法区------------------------------------
 // 开诊界面点击按钮显示已挂号人
 const handleHZXM = ()=>{
@@ -215,9 +250,17 @@ const handleEdit = ()=>{}
 const handleMedicine =()=>{
     dialogVisible1.value=true
 }
+const handleYaopin =()=>{
+    dialogVisible2.value=true
+} 
 /* const handleCheck =()=>{
     dialogVisible2.value=true
 } */
+// 全选
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val
+}
+
 </script>
 
 <style lang="scss" scoped>
