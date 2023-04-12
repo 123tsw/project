@@ -4,6 +4,7 @@ import Index from '@/views/Index.vue'
 import Medicine from '@/views/Medicine.vue'
 import Zhuce from '@/views/Zhuce.vue'
 import Home from '@/views/Home.vue'
+import User from '@/views/User.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
           name: 'home',
           component: Home,
         },
+        {
+          path:'/user',
+          name:'user',
+          component:User
+        }
       ]
     },
     {
