@@ -46,7 +46,7 @@
                         <el-menu-item index="4">
                             <el-icon><Grid /></el-icon> 科室管理
                         </el-menu-item>
-                        <el-menu-item index="5">
+                        <el-menu-item index="/PatientTreatment">
                             <el-icon><TrendCharts /></el-icon> 医生管理
                         </el-menu-item>
 

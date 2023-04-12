@@ -7,6 +7,9 @@ import User from '@/views/User.vue'
 import MedicineCj from '@/views/MedicineCj.vue'
 import MedicineGl from '@/views/MedicineGl.vue'
 import MedicineGy from '@/views/MedicineGy.vue'
+import PatientTreatment from '@/views/PatientTreatment.vue'
+import DoctorZl from '@/views/DoctorZl.vue'
+import GuaHao from '@/views/GuaHao.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +44,21 @@ const router = createRouter({
           name: 'user',
           component: User,
         },
+        {
+          path:'patientTreatment',
+          name:'patientTreatment',
+          component:PatientTreatment,
+        },
+        {
+          path:'doctorZl',
+          name:'doctorZl',
+          component:DoctorZl
+        },
+        {
+          path:'guaHao',
+          name:'guaHao',
+          component:GuaHao
+        }
       ]
     },
     {
