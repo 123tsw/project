@@ -4,10 +4,31 @@
 
         </div>
         <el-form :model="form" :rules="rules" label-width="100px">
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="form.username" placeholder="请输入用户名"/>
+            <el-form-item label="身份证号" prop="username">
+                <el-input v-model="form.username" placeholder="请输入身份证号"/>
             </el-form-item>
-            <el-form-item label="密码：" prop="password">
+            <el-form-item label="手机号" prop="tele">
+                <el-input v-model="form.tele" placeholder="请输入手机号"/>
+            </el-form-item>
+            <el-form-item label="姓名" prop="name">
+                <el-input v-model="form.name" placeholder="请输入姓名"/>
+            </el-form-item>
+            <el-row>
+                <el-form-item label="性别" prop="gender">
+                    <el-radio-group v-model="form.gender" class="ml-4">
+                        <el-radio label="1" size="large">男</el-radio>
+                        <el-radio label="2" size="large">女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="职位">
+                    <el-select v-model="form.job" placeholder="职位">
+                        <el-option label="医生" value="医生" />
+                        <el-option label="护士" value="护士" />
+                    </el-select>
+                </el-form-item>
+            </el-row>
+            
+            <el-form-item label="密码" prop="password">
                 <el-input
                     v-model="form.password"
                     type="password"
@@ -15,7 +36,7 @@
                     show-password
                 />
             </el-form-item>
-            <el-form-item label="确认密码：" prop="password">
+            <el-form-item label="确认密码" prop="password">
                 <el-input
                     v-model="form.password2"
                     type="password"
@@ -36,12 +57,16 @@
     import { useUserTokenStore } from '../stores/userToken';
 
     const userTokenStore = useUserTokenStore()
-    const telephone = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/
+    const ida = /^[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]$/
+    const telephone = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/
     const mima = /^(?=.*[a-zA-Z])(?=.*\d).+$/
 
 
     const form = reactive({
         username: '',
+        tele:'',
+        name:'',
+        gender:'',
         password: '',
         password2: '',
     })
@@ -49,7 +74,17 @@
     const rules = reactive({
         username: [
             { required: true, message: '手机号不能为空', trigger: 'blur' },
-            { pattern: telephone, message: '请输入正确的手机号', trigger: 'blur' }
+            { pattern: ida, message: '请输入正确身份证号', trigger: 'blur' }
+        ],
+        tele:[    
+            { required: true, message: '手机号不能为空', trigger: 'blur' },
+            { pattern: telephone, message: '请输入正确手机号', trigger: 'blur' }
+        ],
+        name:[
+            { required: true, message: '姓名不能为空', trigger: 'blur' },
+        ],
+        gender:[
+            { required: true, message: '请选择性别', trigger: 'blur' },
         ],
         password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
@@ -61,7 +96,7 @@
         ],
     })
     const handleLogon = () => {
-        if(form.password == form.password2&&form.password != ''){
+        if(form.password == form.password2&&form.password != ''&&form.tele != ''&&form.tele != 'name'&&form.username != 'name'){
             ElMessage.success('注册成功')
             userTokenStore.clearToken()
             location.href = '/Login' 
@@ -82,7 +117,7 @@
         padding: 30px;
         border-radius: 20px;
         position: relative;
-        top: 300px;
+        top: 200px;
         left: 250px;
         background: skyblue;
         box-sizing: border-box;
@@ -94,5 +129,8 @@
     .img{
         height: 100vh;
         background: url(../../image/bg.jpg) no-repeat center;
+    }
+    .el-select{
+        width: 100px;
     }
 </style>

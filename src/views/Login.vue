@@ -25,6 +25,7 @@
     import { useUserTokenStore } from '../stores/userToken';
 
     const userTokenStore = useUserTokenStore()
+    const ida = /^[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]$/
 
 
     const form = reactive({
@@ -35,6 +36,7 @@
     const rules = reactive({
         username: [
             { required: true, message: '手机号不能为空', trigger: 'blur' },
+            { pattern: ida, message: '请输入正确的身份证号', trigger: 'blur' }
         ],
         password: [
             { required: true, message: '密码不能为空', trigger: 'blur' },
@@ -48,7 +50,7 @@
 
     const onSubmit = () =>{
         userTokenStore.clearToken()
-        location.href = '/Index' 
+        location.href = '/' 
     }
 </script>
 

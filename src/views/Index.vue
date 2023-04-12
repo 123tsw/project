@@ -6,7 +6,7 @@
                 <div class="user-info">
                     <el-dropdown>
                         <span>
-                            欢迎：田诗雯主任医师
+                            欢迎：...主任医师
                             <el-icon class="el-icon--right">
                                 <arrow-down />
                             </el-icon>
@@ -29,7 +29,7 @@
                         router
                     >
                         <el-menu-item index="/home">
-                            <el-icon><HomeFilled /></el-icon> 首页
+                            <el-icon><House /></el-icon> 首页
                         </el-menu-item>
                         <el-sub-menu index="/">
                             <template #title>
@@ -38,16 +38,16 @@
                             </template>
                                 <el-menu-item index="/medicine/gl"><el-icon><Notebook /></el-icon>药品管理</el-menu-item>
                                 <el-menu-item index="/medicine/gy"><el-icon><Van /></el-icon>供应商管理</el-menu-item>
-                                <el-menu-item index="/medicine/cj"><el-icon><HomeFilled /></el-icon>厂家管理</el-menu-item>
+                                <el-menu-item index="/medicine/cj"><el-icon><OfficeBuilding /></el-icon>厂家管理</el-menu-item>
                             </el-sub-menu>
                         <el-menu-item index="/user">
-                            <el-icon><Checked /></el-icon> 看病就诊
+                            <el-icon><Memo /></el-icon> 看病就诊
                         </el-menu-item>
                         <el-menu-item index="4">
-                            <el-icon><Grid /></el-icon> 科室管理
+                            <el-icon><DataLine /></el-icon> 科室管理
                         </el-menu-item>
                         <el-menu-item index="5">
-                            <el-icon><TrendCharts /></el-icon> 医生管理
+                            <el-icon><User /></el-icon> 医生管理
                         </el-menu-item>
 
                         
@@ -103,7 +103,7 @@
         color: #D98719;
     }
     .el-aside{
-        background-color: #67acc9;
+        background-color: #CCE8CF;
     }
     .el-menu{
         height: calc(100vh - 100px);
