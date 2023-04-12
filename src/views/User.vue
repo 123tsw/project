@@ -127,49 +127,97 @@
                         </el-tab-pane>
                     </el-tabs>
                     <!-- 添加药方弹窗 -->
-                    <el-dialog v-model="dialogVisible1" title="添加【药用】处方" center>
+                    <el-dialog v-model="dialogVisible1" title="添加【药用】处方" center class="yaofang">
                         <el-table :data="medicineData">
-                        <el-table-column property="date" label="序号" />
-                        <el-table-column property="name" label="药品名称" />
-                        <el-table-column property="address" label="数量" />
-                        <el-table-column property="address" label="单价(元)" />
-                        <el-table-column property="address" label="金额(元)" />
+                        <el-table-column prop="id" label="序号" />
+                        <el-table-column prop="ypmc" label="药品名称" />
+                        <el-table-column prop="num" label="数量" />
+                        <el-table-column prop="dj" label="单价(元)" />
+                        <el-table-column prop="jine" label="金额(元)" />
                     </el-table>
                     <el-button type="primary" class="medicine-button" @click="handleYaopin"><el-icon><Plus /></el-icon><span>添加药品项</span></el-button>
                     </el-dialog>
-                    <el-dialog
+                    <el-drawer
                     v-model="dialogVisible2"
-                    center
-                    title="药品列表"
                     >
-                    <el-form :model="form1" label-width="90px">
+                    <h2 style="text-align: center;margin-bottom: 20px;">药品列表</h2>
+                    <el-form :model="form1" label-width="60px" class="mform">
                         <el-row>
-                            <el-col :span="14">
+                            <el-col :span="12">
                                 <el-form-item label="关键字">
                                     <el-input v-model="form1.GJZ" placeholder="请输入关键字"/>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="8">
+                            <el-col :span="12">
                                 <el-button type="primary" style="margin-left: 5px;"><el-icon><search /></el-icon>搜索</el-button>
                                 <el-button type="primary"><el-icon><search /></el-icon>重置</el-button>
                             </el-col>
                         </el-row>
                         <el-table
+                            border 
                             ref="multipleTableRef"
                             :data="medicineList"
-                            style="width: 100%"
+                            style="width: 100%" 
                             @selection-change="handleSelectionChange"
+                            
                         >
                             <el-table-column type="selection" width="55" />
-                            <el-table-column label="药品ID" width="120" prop="YPID">
-                            <template #default="scope">{{ scope.row.date }}</template>
+                            <el-table-column prop="YPID" label="药品ID" width="120" >
+                            
                             </el-table-column>
                             <el-table-column prop="YPMC" label="药品名称" width="120" />
                             <el-table-column prop="KCL" label="库存量" show-overflow-tooltip />
                         </el-table>
+                        <el-button type="primary" plain class="mlistbtn"><el-icon><Plus /></el-icon><span>添加并关闭</span></el-button>
                     </el-form>
+                    </el-drawer>
+                    <!-- 添加检查处方弹窗 -->
+                    <el-dialog v-model="dialogVisible3" title="添加【检查】处方" center class="yaofang">
+                        <el-table :data="checkData">
+                            <el-table-column prop="id1" label="序号" />
+                            <el-table-column prop="xmmc1" label="项目名称" />
+                            <el-table-column prop="dw1" label="单位" />
+                            <el-table-column prop="dj1" label="单价(元)" />
+                            <el-table-column prop="jine1" label="金额(元)" />
+                            <el-table-column prop="jcbz1" label="检查备注" />
+                        </el-table>
+                    <el-button type="primary" class="medicine-button" @click="handleChecklist"><el-icon><Plus /></el-icon><span>添加检查项</span></el-button>
                     </el-dialog>
-                   
+                    <el-drawer
+                    v-model="dialogVisible4"
+                    >
+                    <h2 style="text-align: center;margin-bottom: 20px;">检查项目列表</h2>
+                    <el-form :model="form1" label-width="60px" class="mform">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="关键字">
+                                    <el-input v-model="form1.GJZ" placeholder="请输入关键字"/>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-button type="primary" style="margin-left: 5px;"><el-icon><search /></el-icon>搜索</el-button>
+                                <el-button type="primary"><el-icon><search /></el-icon>重置</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-table
+                            border 
+                            ref="multipleTableRef"
+                            :data="checkList"
+                            style="width: 100%" 
+                            @selection-change="handleSelectionChange"
+                            
+                        >
+                            <el-table-column type="selection" width="55" />
+                            <el-table-column prop="xmfyid" label="项目费用ID" width="120" >
+                            
+                            </el-table-column>
+                            <el-table-column prop="xmmc" label="项目名称" width="120" />
+                            <el-table-column prop="gjz" label="关键字" show-overflow-tooltip />
+                            <el-table-column prop="dj" label="单价" show-overflow-tooltip />
+                        </el-table>
+                        <el-button type="primary" plain class="mlistbtn"><el-icon><Plus /></el-icon><span>添加并关闭</span></el-button>
+                    </el-form>
+                    </el-drawer>
                 </el-main>
             </el-container>
         </el-container>
@@ -199,6 +247,9 @@ const form1 =reactive({
     YPMC:'',
     KCL:''
 })
+const form2 =reactive({
+
+})
 const medicineList =[
     {
         'YPID':'1',
@@ -207,13 +258,108 @@ const medicineList =[
     },
     {
         'YPID':'2',
-        'YPMC':'青霉素',
+        'YPMC':'青霉素555',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'3',
+        'YPMC':'青霉素2222',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'4',
+        'YPMC':'青霉素33',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
+        'KCL':'9999'
+    },
+    {
+        'YPID':'5',
+        'YPMC':'青霉素2',
         'KCL':'9999'
     },
 ]
+const checkList =[
+    {
+        xmfyid:'1',
+        xmmc:'青霉素',
+        gjz:'9999',
+        dj:'12'
+    },
+]
+// 患者信息头像点击弹出
 const dialogVisible = ref(false)
+// 药品处方点击弹出
 const dialogVisible1 = ref(false) 
+// 药品列表弹出
 const dialogVisible2 = ref(false) 
+// 检查处方弹出
+const dialogVisible3 = ref(false) 
+// 检查列表弹出
+const dialogVisible4 = ref(false) 
 const orderType =ref('')
 const activeName =ref('first')
 // 全选
@@ -247,15 +393,22 @@ const onsubmit =(formEl)=>{
     })
 }
 const handleEdit = ()=>{}
+// 添加药品处方
 const handleMedicine =()=>{
     dialogVisible1.value=true
 }
+// 添加药品列表
 const handleYaopin =()=>{
     dialogVisible2.value=true
 } 
-/* const handleCheck =()=>{
-    dialogVisible2.value=true
-} */
+// 添加检查处方
+const handleCheck =()=>{
+    dialogVisible3.value=true
+}
+// 添加检查项
+const handleChecklist =()=>{
+    dialogVisible4.value=true
+}
 // 全选
 const handleSelectionChange = (val) => {
   multipleSelection.value = val
@@ -300,5 +453,15 @@ const handleSelectionChange = (val) => {
 .medicine-button{
     width: 100%;
     margin-top: 10px;
+}
+.mform{
+    // height: 700px;
+    width: 100%;
+    // padding-left: 20px;
+}
+.mlistbtn{
+    margin-left: 150px;
+    margin-top: 10px;
+    width: 150px;
 }
 </style>
