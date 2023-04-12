@@ -43,10 +43,10 @@
                         <el-menu-item index="/user">
                             <el-icon><Checked /></el-icon> 看病就诊
                         </el-menu-item>
-                        <el-menu-item index="4">
+                        <el-menu-item index="/departmentmgt">
                             <el-icon><Grid /></el-icon> 科室管理
                         </el-menu-item>
-                        <el-menu-item index="5">
+                        <el-menu-item index="/doctorzl">
                             <el-icon><TrendCharts /></el-icon> 医生管理
                         </el-menu-item>
 

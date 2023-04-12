@@ -7,6 +7,12 @@ import User from '@/views/User.vue'
 import MedicineCj from '@/views/MedicineCj.vue'
 import MedicineGl from '@/views/MedicineGl.vue'
 import MedicineGy from '@/views/MedicineGy.vue'
+import DepartmentMgt from '@/views/DepartmentMgt.vue'
+import Pay from '@/views/Pay.vue'
+import DoctorZL from '@/views/DoctorZL.vue'
+
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +47,23 @@ const router = createRouter({
           name: 'user',
           component: User,
         },
+        {
+          path: 'departmentmgt',
+          name: 'departmentmgt',
+          component: DepartmentMgt,
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: Pay,
+        },
+        {
+          path: 'doctorzl',
+          name: 'doctorzl',
+          component: DoctorZL,
+        },
+
+
       ]
     },
     {

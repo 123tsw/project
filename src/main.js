@@ -10,10 +10,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 持久化插件
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+/* import piniaPluginPersistedstate from 'pinia-plugin-persistedstate' */
 const pinia = createPinia()
 // 让插件和pinia结合
-pinia.use(piniaPluginPersistedstate)
+/* pinia.use(piniaPluginPersistedstate) */
 
 import './assets/main.css'
 

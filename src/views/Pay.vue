@@ -2,13 +2,13 @@
     <div class="pay">
         <h4>门诊收退记录</h4>
         <div class="box1">
-            <el-select v-model="value" class="m-2" placeholder="Select">
+            <el-select v-model="value" class="m-2" placeholder="科室">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-select v-model="value" class="m-2" placeholder="Select">
+            <el-select v-model="value" class="m-2" placeholder="医生">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-select v-model="value" class="m-2" placeholder="Select">
+            <el-select v-model="value" class="m-2" placeholder="状态">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
             <el-input v-model="form.name" value="输入单据号" />
@@ -21,16 +21,19 @@
             </div>
         </div>
         <div class="box2">
-            <el-button type="query" plain>查询</el-button>
-            <el-button type="anew" plain>条件重置</el-button>
-            <el-button type="print" plain>打印</el-button>
+            <el-button type="primary" plain>查询</el-button>
+            <el-button type="primary" plain>条件重置</el-button>
+            <el-button type="primary" plain>打印</el-button>
             <el-button type="success" plain>Success</el-button>
         </div>
         <div class="box3">
             <el-table :data="tableData" border style="width: 100%">
-                <el-table-column prop="date" label="Date" width="180" />
-                <el-table-column prop="name" label="Name" width="180" />
-                <el-table-column prop="address" label="Address" />
+                <el-table-column prop="ZT" label="状态" width="180" />
+                <el-table-column prop="HZXM" label="患者姓名" width="180" />
+                <el-table-column prop="KS" label="科室" width="180" />
+                <el-table-column prop="YS" label="医生" width="180" />
+                <el-table-column prop="FY" label="费用" width="180" />
+                <el-table-column prop="SKY" label="收款员" width="180" />
             </el-table>
             <div>
                 <el-pagination small layout="prev, pager, next" :total="50" />
@@ -83,24 +86,28 @@ const options = [
 //表格
 const tableData = [
     {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
+        ZT:'Tom',
+        HZXM:'Tom',
+        KS:'Tom',
+        YS:'Tom',
+        FY:'Tom',
+        SKY:'Tom',
     },
     {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
+        ZT:'Tom',
+        HZXM:'Tom',
+        KS:'Tom',
+        YS:'Tom',
+        FY:'Tom',
+        SKY:'Tom',
     },
     {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
+        ZT:'Tom',
+        HZXM:'Tom',
+        KS:'Tom',
+        YS:'Tom',
+        FY:'Tom',
+        SKY:'Tom',
     },
 ]
 const onSubmit = () => {
@@ -145,13 +152,13 @@ const shortcuts = [
   
 
 <style scoped>
-.pay{
+/* .pay{
     margin: 100px ;
-}
+} */
 .box1 {
     width: 100%;
     height: 60px;
-    background: pink;
+/*     background: pink; */
 }
 
 .el-select {
@@ -161,7 +168,7 @@ const shortcuts = [
 }
 
 .el-input {
-    width: 120px;
+    width: 110px;
     margin-left: 20px;
     margin-top: 3px;
 }
@@ -179,7 +186,7 @@ const shortcuts = [
       text-align: center; 
     border-right: solid 1px var(--el-border-color);
     display: inline;
-    margin-left: 20px;
+/*     margin-left: 20px; */
     float: right;
 }
 
@@ -200,5 +207,8 @@ const shortcuts = [
 .box2{
     float: right;
     height: 40px;
+}
+.el-table{
+    background: #cff;
 }
 </style>
