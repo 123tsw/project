@@ -7,6 +7,7 @@ import User from '@/views/User.vue'
 import MedicineCj from '@/views/MedicineCj.vue'
 import MedicineGl from '@/views/MedicineGl.vue'
 import MedicineGy from '@/views/MedicineGy.vue'
+import UserList from '@/views/UserList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,11 @@ const router = createRouter({
           name: 'user',
           component: User,
         },
+        {
+          path:'user/list',
+          name:'userlist',
+          component:UserList
+        }
       ]
     },
     {

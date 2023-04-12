@@ -17,6 +17,9 @@ pinia.use(piniaPluginPersistedstate)
 
 import './assets/main.css'
 
+// 引入mock
+import "./mock/index"
+
 const app = createApp(App)
 
 // Element图标库
@@ -32,3 +35,4 @@ app.use(router)
 // Element
 app.use(ElementPlus)
 app.mount('#app')
+
