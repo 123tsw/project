@@ -22,19 +22,25 @@
             <el-container>
                 <el-aside width="200px">
                     <el-menu
-                        active-text-color="#fcc"
-                        background-color="#67acc9"
+                        active-text-color="#5F9F9F"
+                        background-color="#CCE8CF"
                         :default-active="active"
-                        text-color="#fff"
+                        text-color="#5C3317"
                         router
                     >
                         <el-menu-item index="/home">
                             <el-icon><HomeFilled /></el-icon> 首页
                         </el-menu-item>
-                        <el-menu-item index="/Medicine">
-                            <el-icon><List /></el-icon> 药品管理
-                        </el-menu-item>
-                        <el-menu-item index="3">
+                        <el-sub-menu index="/">
+                            <template #title>
+                                <el-icon><FirstAidKit /></el-icon>
+                                <span>药品</span>
+                            </template>
+                                <el-menu-item index="/medicine/gl"><el-icon><Notebook /></el-icon>药品管理</el-menu-item>
+                                <el-menu-item index="/medicine/gy"><el-icon><Van /></el-icon>供应商管理</el-menu-item>
+                                <el-menu-item index="/medicine/cj"><el-icon><HomeFilled /></el-icon>厂家管理</el-menu-item>
+                            </el-sub-menu>
+                        <el-menu-item index="/user">
                             <el-icon><Checked /></el-icon> 看病就诊
                         </el-menu-item>
                         <el-menu-item index="4">
@@ -43,7 +49,6 @@
                         <el-menu-item index="5">
                             <el-icon><TrendCharts /></el-icon> 医生管理
                         </el-menu-item>
-                    
 
                         
                     </el-menu>
@@ -78,12 +83,13 @@
 
 <style lang="scss" scoped>
     .el-header{
-        background: skyblue;
+        background: #B7E8BD;
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 100px;
         font-size: 25px;
+        color: #D98719;
     }
     .user-info{
         display: flex;
@@ -94,6 +100,7 @@
         cursor: pointer;
         outline: none;
         font-size: 20px;
+        color: #D98719;
     }
     .el-aside{
         background-color: #67acc9;
