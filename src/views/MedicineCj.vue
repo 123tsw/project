@@ -2,8 +2,11 @@
     <div>
         <div>
             <el-button type="success"  @click="dialogVisible = true">添加&nbsp;&nbsp;&nbsp;<el-icon><Plus /></el-icon></el-button>
-            <el-drawer v-model="dialogVisible" width="30%" draggable>
-                <span>
+            <el-drawer v-model="dialogVisible" width="30%">
+                <el-form
+                    :model="form"
+                    ref="formRef"
+                >
                     <h2>添加厂家</h2>
                     <el-form-item class="input2" label="厂家id" prop="cjid">
                         <el-input v-model="form.cjid" placeholder="厂家id" />
@@ -44,16 +47,11 @@
                     <el-form-item label="统一社会信用代码信用代码" prop="xydm">
                         <el-input v-model="form.xydm" placeholder="统一社会信用代码信用代码" />
                     </el-form-item>
-
-                </span>
-                <template #footer>
-                    <span class="dialog-footer">
-                        <el-button @click="dialogVisible = false">取消</el-button>
-                        <el-button type="primary" @click="dialogVisible = false">
-                            确定
-                        </el-button>
-                    </span>
-                </template>
+                    <el-button @click="handleEdit">取消</el-button>
+                    <el-button type="primary" @click="handleConfim(formRef)">
+                        确定
+                    </el-button>
+                </el-form>                       
             </el-drawer>
             <el-input v-model="searchWord" class="input1" placeholder="输入厂家关键字">
                 <template #append>
@@ -94,6 +92,7 @@
     
 <script setup>
     import { ref ,reactive} from 'vue'
+    const formRef =ref()
     const form = reactive({
         cjid: '',
         cjbm: '',
@@ -110,7 +109,6 @@
         yxzt: '',
     })
     const searchWord = ref('')
-
 
     const dialogVisible = ref(false)
 
@@ -134,6 +132,23 @@
 
     const deleteRow = (index) => {
         tableData.value.splice(index, 1)
+    }
+
+    const handleSearch = () =>{}
+    const handleConfim = (formEl)=>{
+        dialogVisible.value = false
+        if (!formEl) return
+        formEl.validate((valid, fields) => {
+            if(valid){
+                console.log('submit',form);
+            }else{
+                console.log('no submit',fields);
+            }
+        })
+
+    }
+    const handleEdit = ()=>{
+        // dialogVisible.value = false
     }
 </script>
 

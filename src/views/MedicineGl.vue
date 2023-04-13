@@ -212,6 +212,9 @@
     const deleteRow = (index) => {
         tableData.value.splice(index, 1)
     }
+    
+    const handleSearch = () =>{}
+
 
 </script>
 

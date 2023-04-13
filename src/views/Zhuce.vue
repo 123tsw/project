@@ -3,7 +3,7 @@
         <div class="left">
 
         </div>
-        <el-form :model="form" :rules="rules" label-width="100px">
+        <el-form :model="form" ref="formRef" :rules="rules" label-width="100px">
             <el-form-item label="身份证号" prop="username">
                 <el-input v-model="form.username" placeholder="请输入身份证号"/>
             </el-form-item>
@@ -45,7 +45,7 @@
                 />
             </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="handleLogon">注册</el-button>
+                    <el-button type="primary" @click="handleLogon(formRef)">注册</el-button>
                 </el-form-item>
         </el-form>
     </div>
@@ -53,10 +53,12 @@
 
 <script setup>
     import{ElMessage} from 'element-plus'
-    import { reactive } from 'vue'
-    import { useUserTokenStore } from '../stores/userToken';
+    import { ref,reactive } from 'vue'
+    import { useRouter } from 'vue-router';
 
-    const userTokenStore = useUserTokenStore()
+
+    const router = useRouter()
+    const formRef = ref()
     const ida = /^[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]$/
     const telephone = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/
     const mima = /^(?=.*[a-zA-Z])(?=.*\d).+$/
@@ -95,16 +97,19 @@
             { pattern: mima, message: '两次密码不一致', trigger: 'blur' }
         ],
     })
-    const handleLogon = () => {
-        if(form.password == form.password2&&form.password != ''&&form.tele != ''&&form.tele != 'name'&&form.username != 'name'){
-            ElMessage.success('注册成功')
-            userTokenStore.clearToken()
-            location.href = '/Login' 
-        }
-        else{
-            ElMessage.error('注册失败')
-            form.password2 = ''
-        }
+    const handleLogon = (formEl) => {
+        if (!formEl) return
+        formEl.validate((valid, fields) => {
+            if(form.password == form.password2&&form.password != ''&&form.tele != ''&&form.tele != 'name'&&form.username != 'name'){
+                ElMessage.success('注册成功')
+                router.push('/Login')
+            }
+            else{
+                ElMessage.error('注册失败')
+                form.password2 = ''
+            }
+        })
+        
         
     }
 </script>
