@@ -32,7 +32,7 @@
                             <el-icon><House /></el-icon> 首页
                         </el-menu-item>
 
-                        <el-sub-menu index="/">
+                        <el-sub-menu index="/medicine">
                             <template #title>
                                 <el-icon><FirstAidKit /></el-icon>
                                 <span>药品</span>
@@ -42,7 +42,7 @@
                             <el-menu-item index="/medicinecj"><el-icon><OfficeBuilding /></el-icon>厂家管理</el-menu-item>
                         </el-sub-menu>
 
-                        <el-sub-menu index="/">
+                        <el-sub-menu index="/us">
                             <template #title>
                                 <el-icon><Tickets /></el-icon>
                                 <span>看病就诊</span>
@@ -77,16 +77,17 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue'
-    import { useRoute } from 'vue-router'
+   import { ref,computed } from 'vue'
+    import { useRoute } from 'vue-router';
     import { useUserTokenStore } from '../stores/userToken';
 
-    const userTokenStore = useUserTokenStore()
     const route = useRoute()
+    const userTokenStore = useUserTokenStore()
+    const breadcrumbs = computed(() => route.meta.breadcrumbs)
     const active = ref(route.path)
-    const handleLogout = () => {
+    const handleLogout = () =>{
         userTokenStore.clearToken()
-        location.href = '/Login' 
+        location.href = '/login'
     }
 
 </script>
@@ -117,5 +118,26 @@
     }
     .el-menu{
         height: calc(100vh - 100px);
+    }
+    .el-breadcrumb{
+        margin-bottom: 20px;
+    }
+    .slide-enter-from {
+        opacity: 0;
+    }
+    .slide-enter-to {
+        opacity: 1;
+    }
+    .slide-enter-active {
+        transition: 0.5s;
+    }
+    .slide-leave-from {
+        opacity: 1;
+    }
+    .slide-leave-to {
+        opacity: 0;
+    }
+    .slide-leave-active {
+        transition: 0.5s;
     }
 </style>
