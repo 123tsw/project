@@ -1,6 +1,6 @@
 import http from '../utils/http'
 //发送验证码
-function sendYzm(data){
+function username(data){
     return http.get('/users/yzm',data)
 }
 
@@ -15,7 +15,7 @@ function info() {
   return http.get('/users/info')
 }
 export {
-    sendYzm,
+  username,
     login,
     info
   }
