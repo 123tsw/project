@@ -8,6 +8,10 @@ import MedicineCj from '@/views/MedicineCj.vue'
 import MedicineGl from '@/views/MedicineGl.vue'
 import MedicineGy from '@/views/MedicineGy.vue'
 import UserList from '@/views/UserList.vue'
+import PatientTreatment from '@/views/PatientTreatment.vue'
+import DoctorZL from '@/views/DoctorZL.vue'
+import DepartmentMgt from '@/views/DepartmentMgt.vue'
+import GuaHao from '@/views/GuaHao.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,18 +27,18 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: 'medicine/cj',
-          name: 'medicineCj',
+          path: 'medicinecj',
+          name: 'medicinecj',
           component: MedicineCj,
         },
         {
-          path: 'medicine/gl',
-          name: 'medicineGl',
+          path: 'medicinegl',
+          name: 'medicinegl',
           component: MedicineGl,
         },
         {
-          path: 'medicine/gy',
-          name: 'medicineGy',
+          path: 'medicinegy',
+          name: 'medicinegy',
           component: MedicineGy,
         },
         {
@@ -43,10 +47,30 @@ const router = createRouter({
           component: User,
         },
         {
-          path:'user/list',
+          path:'userlist',
           name:'userlist',
           component:UserList
-        }
+        },
+        {
+          path:'patienttreatment',
+          name:'patienttreatment',
+          component:PatientTreatment
+        },
+        {
+          path:'doctorzL',
+          name:'doctorzL',
+          component:DoctorZL
+        },
+        {
+          path:'departmentmgt',
+          name:'departmentmgt',
+          component:DepartmentMgt
+        },
+        {
+          path:'guaHao',
+          name:'guaHao',
+          component:GuaHao
+        },
       ]
     },
     {

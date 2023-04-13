@@ -31,22 +31,32 @@
                         <el-menu-item index="/home">
                             <el-icon><House /></el-icon> 首页
                         </el-menu-item>
+
                         <el-sub-menu index="/">
                             <template #title>
                                 <el-icon><FirstAidKit /></el-icon>
                                 <span>药品</span>
                             </template>
-                                <el-menu-item index="/medicine/gl"><el-icon><Notebook /></el-icon>药品管理</el-menu-item>
-                                <el-menu-item index="/medicine/gy"><el-icon><Van /></el-icon>供应商管理</el-menu-item>
-                                <el-menu-item index="/medicine/cj"><el-icon><OfficeBuilding /></el-icon>厂家管理</el-menu-item>
-                            </el-sub-menu>
-                        <el-menu-item index="/user">
-                            <el-icon><Memo /></el-icon> 看病就诊
-                        </el-menu-item>
-                        <el-menu-item index="4">
+                            <el-menu-item index="/medicinegl"><el-icon><Notebook /></el-icon>药品管理</el-menu-item>
+                            <el-menu-item index="/medicinegy"><el-icon><Van /></el-icon>供应商管理</el-menu-item>
+                            <el-menu-item index="/medicinecj"><el-icon><OfficeBuilding /></el-icon>厂家管理</el-menu-item>
+                        </el-sub-menu>
+
+                        <el-sub-menu index="/">
+                            <template #title>
+                                <el-icon><Tickets /></el-icon>
+                                <span>看病就诊</span>
+                            </template>
+                            <el-menu-item index="/guaHao"><el-icon><Cellphone /></el-icon>挂号</el-menu-item>
+                            <el-menu-item index="/user"><el-icon><CirclePlus /></el-icon>新开就诊</el-menu-item>
+                            <el-menu-item index="/userlist"><el-icon><FolderAdd /></el-icon>患者库</el-menu-item>
+                        </el-sub-menu>
+
+                        <el-menu-item index="/departmentmgt">
                             <el-icon><DataLine /></el-icon> 科室管理
                         </el-menu-item>
-                        <el-menu-item index="5">
+
+                        <el-menu-item index="/patienttreatment">
                             <el-icon><User /></el-icon> 医生管理
                         </el-menu-item>
 
