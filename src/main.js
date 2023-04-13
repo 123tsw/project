@@ -17,9 +17,6 @@ pinia.use(piniaPluginPersistedstate)
 
 import './assets/main.css'
 
-// 引入mock
-import "./mock/index"
-
 const app = createApp(App)
 
 // Element图标库
