@@ -98,7 +98,7 @@ const handleSx = () => {
 
 //医生资料
 const handleDoctor = () => {
-    router.push('/DoctorZL')
+    router.push('/doctorzL')
 }
 //编辑
 const handleEdit = () => {

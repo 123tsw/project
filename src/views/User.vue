@@ -19,10 +19,10 @@
                     <el-button style="margin-left: 5px;" @click="handleHZXM"><el-icon><Avatar /></el-icon></el-button>
                 </el-form-item>
                  <el-form-item label="患者年龄" prop="HZNL">
-                    <el-input v-model="userform.HZNL" />
+                    <el-input v-model="userform.HZNL" disabled/>
                 </el-form-item>     
                 <el-form-item label="性别" prop="HZXB">
-                    <el-radio-group v-model="userform.HZXB" class="ml-4">
+                    <el-radio-group v-model="userform.HZXB" class="ml-4" disabled>
                         <el-radio label="男" size="large">男</el-radio>
                         <el-radio label="女" size="large">女</el-radio>
                     </el-radio-group>
@@ -62,10 +62,17 @@
                     <el-table-column prop="GHLX" label="挂号类型" />
                     <el-table-column label="操作">
                         <template #default>
-                            <el-button size="small" type="success" plain @click="handleJiezhen(formRef)">
+                            <el-button 
+                            size="small" 
+                            type="success" 
+                            plain 
+                            @click="handleJiezhen(formRef)"
+                            :disabled="disjiuzhen"
+                            >  
                                 <el-icon><Check /></el-icon>
-                                <span>接诊</span>
+                                <span>{{ Textjiuzhen }}</span>
                             </el-button>
+                            <!-- <el-button size="small" type="success" plain @click="handleFJiezhen(formRef)"> -->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -78,7 +85,7 @@
                         <el-text v-model="form1.blid">{{form1.blid}}</el-text><!-- 到时候再传数据 -->
                     </div>
                     <div>
-                        <el-button type="success" plain @click="hadleSave"><el-icon><Check /></el-icon><span>保存病例</span></el-button>
+                        <el-button type="success" plain @click="hadleSave(formuser)"><el-icon><Check /></el-icon><span>保存病例</span></el-button>
                         <el-button type="primary" plain @click="handleFinish"><el-icon><Finished /></el-icon><span>就诊完成</span></el-button>
                     </div>
                 </el-header>
@@ -88,7 +95,8 @@
                             <el-form 
                             :model="userform" 
                             label-width="70px"
-                            class="el-form-right">
+                            class="el-form-right"
+                            ref="formuser">
                             <el-row>
                                 <el-col :span="12">
                                     <el-form-item label="发病日期">
@@ -143,7 +151,7 @@
                     v-model="dialogVisible2"
                     >
                     <h2 style="text-align: center;margin-bottom: 20px;">药品列表</h2>
-                    <el-form :model="form1" label-width="60px" class="mform">
+                    <el-form :model="form1" label-width="60px" class="mform" ref="formRef1">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="关键字">
@@ -160,7 +168,7 @@
                             ref="multipleTableRef"
                             :data="medicineList"
                             style="width: 100%" 
-                            @selection-change="handleSelectionChange"
+                            @selection-change="handleSelectionChangeM"
                             
                         >
                             <el-table-column type="selection" width="55" />
@@ -170,7 +178,7 @@
                             <el-table-column prop="YPMC" label="药品名称" width="120" />
                             <el-table-column prop="KCL" label="库存量" show-overflow-tooltip />
                         </el-table>
-                        <el-button type="primary" plain class="mlistbtn" @click="handleAddM">
+                        <el-button type="primary" plain class="mlistbtn" @click="handleAddM(formRef1)">
                             <el-icon><Plus /></el-icon>
                             <span>添加并关闭</span>
                         </el-button>
@@ -193,27 +201,27 @@
                     v-model="dialogVisible4"
                     >
                     <h2 style="text-align: center;margin-bottom: 20px;">检查项目列表</h2>
-                    <el-form :model="form1" label-width="60px" class="mform">
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="关键字">
-                                    <el-input v-model="form1.GJZ" placeholder="请输入关键字"/>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-button type="primary" style="margin-left: 5px;"><el-icon><search /></el-icon>搜索</el-button>
-                                <el-button type="primary"><el-icon><search /></el-icon>重置</el-button>
-                            </el-col>
-                        </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="关键字">
+                                <el-input v-model="form1.GJZ" placeholder="请输入关键字"/>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-button type="primary" style="margin-left: 5px;"><el-icon><search /></el-icon>搜索</el-button>
+                            <el-button type="primary"><el-icon><search /></el-icon>重置</el-button>
+                        </el-col>
+                    </el-row>
+                    <el-form :model="form1" label-width="60px" class="mform" ref="formRefCL">
                         <el-table
                             border 
                             ref="multipleTableRef"
                             :data="checkList"
                             style="width: 100%" 
-                            @selection-change="handleSelectionChange"
+                            @selection-change="handleSelectionChangeC"
                             
                         >
-                            <el-table-column type="selection" width="55" />
+                            <el-table-column type="selection" width="55"/>
                             <el-table-column prop="xmfyid" label="项目费用ID" width="120" >
                             
                             </el-table-column>
@@ -221,7 +229,7 @@
                             <el-table-column prop="gjz" label="关键字" show-overflow-tooltip />
                             <el-table-column prop="dj" label="单价" show-overflow-tooltip />
                         </el-table>
-                        <el-button type="primary" plain class="mlistbtn" @click="handleAddC"><el-icon><Plus /></el-icon><span>添加并关闭</span></el-button>
+                        <el-button type="primary" plain class="mlistbtn" @click="handleAddC(formRefCL)"><el-icon><Plus /></el-icon><span>添加并关闭</span></el-button>
                     </el-form>
                     </el-drawer>
                 </el-main>
@@ -234,16 +242,29 @@ import axios from 'axios'
 import {ref,reactive,onMounted} from 'vue'
 import { ElMessage } from 'element-plus';
 import { ElNotification } from 'element-plus'
+const Textjiuzhen = ref('接诊')
+const disjiuzhen =ref(false)
 const formRef =ref()
-const userform =reactive({
-    hzsfzh:'2106231xxxx1',
+const formRef1 =ref()
+const formuser =ref()
+const formRefCL =ref()
+
+/* hzsfzh:'2106231xxxx1',
     HZXM:'张三',
     HZXB:'女',
     HZNL:'20',
     BRDH:'15112341234',
     JTZZ:'辽宁省大连市',
     jzrq:new Date(),
-    GMS:'青霉素过敏',
+    GMS:'青霉素过敏', */
+const userform =reactive({
+    hzsfzh:'',
+    HZXM:'',
+    HZXB:'',
+    HZNL:'',
+    BRDH:'',
+    JTZZ:'',
+    GMS:'',
 })
 const form1 =reactive({
     JZLX:'初诊',
@@ -252,9 +273,13 @@ const form1 =reactive({
     GJZ:'',
     YPID:'',
     YPMC:'',
-    KCL:''
+    KCL:'',
+    jzrq:new Date()
 })
-
+// 药品处方
+const medicineData =[]
+// 检查处方
+const checkData =[]
 const medicineList =[
 {
         'YPID':'1',
@@ -309,10 +334,22 @@ const medicineList =[
 ]
 const checkList =[
     {
-        xmfyid:'',
-        xmmc:'',
-        gjz:'',
-        dj:''
+        xmfyid:'12',
+        xmmc:'嗷嗷',
+        gjz:'嗷嗷',
+        dj:'12'
+    },
+    {
+        xmfyid:'12',
+        xmmc:'嗷嗷',
+        gjz:'嗷嗷',
+        dj:'12'
+    },
+    {
+        xmfyid:'12',
+        xmmc:'嗷嗷',
+        gjz:'嗷嗷',
+        dj:'12'
     },
 ]
 // 患者信息头像点击弹出
@@ -325,7 +362,6 @@ const dialogVisible2 = ref(false)
 const dialogVisible3 = ref(false) 
 // 检查列表弹出
 const dialogVisible4 = ref(false) 
-const orderType =ref('')
 const activeName =ref('first')
 // 全选
 const multipleTableRef = ref()
@@ -339,28 +375,38 @@ const tableDataOrigin =[
     {
         HZXM:'张三',
         LSBH:'11111',
-        GHLX:'门诊',
-        
+        GHLX:'门诊',   
+    },
+    {
+        HZXM:'李四',
+        LSBH:'22222',
+        GHLX:'门诊',   
+    },
+    {
+        HZXM:'王五',
+        LSBH:'43333',
+        GHLX:'门诊',   
     }
 ]
 const tableData =ref(tableDataOrigin)
-// 提交按钮，弹出提交成功-暂时没有
-const onsubmit =(formEl)=>{
-    if (!formEl) return 
+// 接诊患者
+const handleJiezhen = (formEl)=>{
+    // 点击哪个就让哪个显示已就诊  未实现
+    Textjiuzhen.value = `已就诊`
+    disjiuzhen.value = true
+    if (!formEl) return
     formEl.validate((valid, fields) => {
         if (valid) {
-            console.log('submit');
-            ElMessage.success('提交成功')
+            console.log('submit!', userform)
+            // tableData.value[index].list.splice(index,1)
+            console.log(tableData.value[0]);
+            ElMessage.success('接诊成功')
+            dialogVisible.value =false;
         }else {
             console.log('error submit!', fields)
-            ElMessage.success('提交失败')
         }
     })
-}
-// 接诊患者
-const handleJiezhen = ()=>{
-    ElMessage.success('接诊成功')
-    dialogVisible.value =false;
+    
 }
 // 添加药品处方
 const handleMedicine =()=>{
@@ -389,48 +435,67 @@ const handleChecklist =()=>{
     dialogVisible4.value=true
 }
 // 全选
-const handleSelectionChange = (val) => {
+const handleSelectionChangeM = (val) => {
   multipleSelection.value = val
 }
 
-// 保存病例
-const hadleSave =()=>{
+const handleSelectionChangeC = (val) => {
+  multipleSelection.value = val
+}
+
+// 保存病例 完成了大框逻辑，差存入数据
+const hadleSave =(formEl)=>{
+    if (!formEl) return
+    formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!', form1)
+        }else {
+            console.log('error submit!', fields)
+        }
+    })
     ElMessage.success('保存成功')
 }
-// 完成就诊
+// 完成就诊 -传入患者库
 const handleFinish = ()=>{
     ElMessage.success('完成就诊')
 }
-// 添加药品项-添加药品
-const handleAddM =()=>{
-    ElNotification({
-        title: 'Success',
-        message: '添加成功',
-        type: 'success',
-        showClose: false
+// 添加药品项-添加药品 完成了大框逻辑，差选中
+const handleAddM =(formEl)=>{
+    if (!formEl) return
+    formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!', medicineList)
+            ElNotification({
+                title: 'Success',
+                message: '添加成功',
+                type: 'success',
+                showClose: false
+            })
+            dialogVisible4.value = false
+        }else {
+            console.log('error submit!', fields)
+        }
     })
-    dialogVisible2.value = false
 }
-// 添加检查项-添加检查
-const handleAddC =()=>{
-    ElNotification({
-        title: 'Success',
-        message: '添加成功',
-        type: 'success',
-        showClose: false
+// 添加检查项-添加检查 完成了大框逻辑，差选中
+const handleAddC =(formEl)=>{
+    if (!formEl) return
+    formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!', checkList)
+            ElNotification({
+                title: 'Success',
+                message: '添加成功',
+                type: 'success',
+                showClose: false
+            })
+            dialogVisible4.value = false
+        }else {
+            console.log('error submit!', fields)
+        }
     })
-    dialogVisible4.value = false
+
 }
-
-// ---------------------假数据区------------------------------------
-/* onMounted(()=>{
-    axios.get("/mock/bannerData").then(res=>{
-      console.log("假数据结果",res.data);
-    }).catch(error=>{
-      console.log(error);
-    })
-}) */
-
 </script>
 
 <style lang="scss" scoped>

@@ -1,20 +1,78 @@
 <!-- 贺玉全代码 -->
+
 <template>
     <div class="all">
     <h1 style="margin-bottom: 10px; margin-left: 10px;margin-top: 10px;">门诊挂号</h1>
         <!-- 查询区域 -->
     <div class="CXsf">
     <div class="SFcx">
-        身份证号：<el-input style="width: 700px;" v-model="SFvalue" placeholder="输入身份证号查询" />
+          <el-input   v-model="SFvalue" placeholder="输入身份证号查询" />
     </div>
-    <el-button style="margin-top: 36px" type="primary" @click="handleCx()">查询</el-button>
-                  <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
-                  新建
-                </el-button>
+    <el-button style="margin-top: 36px" type="primary" @click="handleCx(SFvalue)">查询</el-button>
 
-                <el-drawer v-model="drawer" title="I am the title" :with-header="false">
-                  <span>Hi there!</span>
-                </el-drawer>
+        <!-- 新建 -->
+         <el-button style="margin-top: 35px" bg type="primary" text @click="dialogFormVisible = true">
+             新建 
+       </el-button>
+
+          <el-dialog  v-model="dialogFormVisible" title="新建挂号">
+
+
+            <el-form :model="formXj" :rules="rules"  ref="formRef">
+
+
+              <el-form-item label="姓名" prop="name" :label-width="formLabelWidth">
+                <el-input v-model="formXj.name" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="性别" prop="xb" :label-width="formLabelWidth">
+                <el-input v-model="formXj.xb" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="年龄" prop="age" :label-width="formLabelWidth">
+                <el-input v-model="formXj.age" autocomplete="off" />
+              </el-form-item>                                                                               
+
+              <el-form-item label="电话" prop="tel" :label-width="formLabelWidth">
+                <el-input v-model="formXj.tel" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="医保卡号" prop="YB" :label-width="formLabelWidth">
+                <el-input v-model="formXj.YB" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="家庭住址" prop="Zz" :label-width="formLabelWidth">
+                <el-input v-model="formXj.Zz" autocomplete="off" />
+              </el-form-item>
+
+
+              <el-form-item label="最后就诊时间" prop="Jz" :label-width="formLabelWidth">
+                <el-input v-model="formXj.Jz" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="联系人姓名" prop="Lxr" :label-width="formLabelWidth">
+                <el-input v-model="formXj.Lxr" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="联系人电话" prop="LxrTel" :label-width="formLabelWidth">
+                <el-input v-model="formXj.LxrTel" autocomplete="off" />
+              </el-form-item>
+
+              <el-form-item label="联系人与患者关系" prop="LxrGx" :label-width="formLabelWidth">
+                <el-input v-model="formXj.LxrGx" autocomplete="off" />
+              </el-form-item>
+
+
+            </el-form>
+
+
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button><!-- 取消就返回页面 -->
+                <el-button type="primary" @click="xinJiaN()">新建</el-button><!-- 点击之后发送ajax请求(post)然后把新建的数据打包给post携带的参数 后端就会保存 -->
+              </span>
+            </template>
+          </el-dialog>
     </div>
 
 
@@ -27,8 +85,8 @@
         <!-- 当日患者区域 -->
       <el-aside style="background: #c8c9cc; margin-right: 10px; height: 800px;" width="200px">
             <h1 style="margin-bottom: 20px; margin-top: 20px;" ><el-icon><Notification /></el-icon>当日患者</h1>
-            <ul v-for="item in list" :key="item.id" >
-                <li style="margin-bottom: 10px;" @click="handleLi()">
+            <ul v-for="item in list" :key="item.id" ><!-- 这里发送ajax get请求 然后把接受到的数据循环进来就行了 -->
+                <li style="margin-bottom: 10px;">
                     {{ item.name }}&nbsp&nbsp
                     {{ item.gender }}&nbsp&nbsp
                     {{ item.age }}&nbsp&nbsp
@@ -56,7 +114,7 @@
               <el-col :span="2"><div class="grid-content ep-bg-purple" style="margin-top: 5px;" />姓名：</el-col>
               <el-col :span="4"><div class="grid-content ep-bg-purple-light" /><el-input v-model="nameValue" ></el-input></el-col>
               <el-col :span="3" ><div class="grid-content ep-bg-purple-light" />
-                <el-select style="margin-left: 5px;" v-model="form.region" >
+                <el-select style="margin-left: 5px;" v-model="HZXBValue">
                   <el-option label="男" value="shanghai" />
                   <el-option label="女" value="beijing" />
                 </el-select>
@@ -150,6 +208,88 @@
       <!-- 收费结算 -->
       <div class="JieSuaN">
         <h1>收费结算</h1>
+
+        <!-- 费用计算区域 -->
+        <el-table :data="tableData" stripe border style="margin-top: 20px;">
+          
+          <el-table-column class="bg"  label="费用项目" align="center">
+
+          <el-table-column class="bg"  label="挂号费" align="center">
+              <el-table-column class="bg"  label="诊查费" align="center">
+                    <el-table-column class="bg"  label="工本费" align="center">
+                        <div>合计</div>
+                      </el-table-column>
+              </el-table-column>
+          </el-table-column>        
+
+          </el-table-column>
+
+
+          <el-table-column class="bg"  label="金额(元)" align="center">
+
+            <el-table-column class="bg"  label="5.00" align="center">
+              <el-table-column class="bg"  label="20.00" align="center">
+                    <el-table-column class="bg"  label="2.00" align="center">
+                     <div style="font-size: 20px;color: red;">27.00</div>
+                      </el-table-column>
+              </el-table-column>
+          </el-table-column>        
+
+
+          </el-table-column>
+
+
+        </el-table>
+
+        <div style="display: flex; margin-top: 10px;">
+          <div style="width: 70px; height: 30px;line-height: 30px; background:#a0cfff;color: white;text-align: center;">费用减免</div> &nbsp;
+          <div style="font-size: 14px;margin-top: 5px;">减免金额 : <span>7.00元  <!-- 后端数据替换 --> </span></div>
+        </div>
+       
+
+        <!-- 付款方式区域 -->
+
+
+        <el-table :data="tableData" stripe border style="margin-top: 20px;">
+          
+          <el-table-column class="bg"  label="自费应缴" align="center">
+
+          <el-table-column class="bg"  label="现金" align="center">
+              <el-table-column class="bg"  label="微信" align="center">
+              <el-table-column class="bg"  label="银联卡" align="center">
+
+                        <div>实缴
+                          <div style="border-top: 1px solid #ccc;">
+                            找零
+                          </div>
+                        </div>
+              </el-table-column>
+             </el-table-column>        
+            </el-table-column>
+          </el-table-column>
+
+
+          <el-table-column class="bg"  label="5.00" align="center">
+
+            <el-table-column class="bg"  label="10.00" align="center">
+              <el-table-column class="bg"  label="" align="center">
+                    <el-table-column class="bg"  label="" align="center">
+                     <div style="font-size: 20px;color: red;">
+                      10.00
+                      <div style="font-size: 20px;color: red; border-top: 1px solid #ccc;">5.00</div>
+                      </div>
+                      </el-table-column>
+              </el-table-column>
+          </el-table-column>        
+
+
+          </el-table-column>
+
+
+        </el-table>
+
+        <br><br>
+        <el-button type="primary" style="margin-left: 100px;" @click="handleGuaHao()">确认挂号</el-button>
         </div>
 
 
@@ -164,11 +304,17 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { ElMessage } from 'element-plus'
 
-const drawer = ref('false')
+const dialogFormVisible = ref(false)
+const formLabelWidth = '300px'
+
+const formRef = ref()
+
 
 const SFvalue = ref('') //身份证查询
 const nameValue = ref('')//名字
+const HZXBValue = ref('性别')//性别
 const ageValue = ref('')//年龄
 const telValue = ref('')//电话
 const YBvalue = ref('')//医保
@@ -177,8 +323,8 @@ const JzValue = ref('')//最后就诊时间
 const LxrValue = ref('')//联系人姓名
 const LxrTelValue = ref('')//联系人电话
 const LxrGxValue = ref('')//联系人与患者的关系
-
-
+const telYz = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/
+const sFyz = /^\d{6}((((((19|20)\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(((19|20)\d{2})(0[13578]|1[02])31)|((19|20)\d{2})02(0[1-9]|1\d|2[0-8])|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))0229))\d{3})|((((\d{2})(0[13-9]|1[012])(0[1-9]|[12]\d|30))|((\d{2})(0[13578]|1[02])31)|((\d{2})02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[048])0229))\d{2}))(\d|X|x)$/
 // 假数据
 const tableData = ref([
     {
@@ -191,7 +337,7 @@ const tableData = ref([
         hys: '12'
     }
 ])
-
+// 挂号信息数据
 const form = reactive({
     region:'性别',
     ks:'请选择科室',
@@ -199,11 +345,44 @@ const form = reactive({
     bb:'请选择班别'
 })
 
+
+//新建挂号数据
+const formXj = reactive({
+  name : '',
+  xb:'',
+  age : '',
+  tel : '',
+  YB : '',
+  Zz : '',
+  Jz : '',
+  Lxr : '',
+  LxrTel : '',
+  LxrGx : '',
+})
+
+// 结算数据
+const formJs = reactive({
+
+})
 // 查询
-const handleCx = () => {
+const handleCx = (SFvalue) => { 
+  
+  var jg =  hzk.value.some(item =>{
+  return SFvalue == item.sfz
+  })
+
+  if(jg == true){
+    ElMessage('此人在患者库里')
+  }else{
+    ElMessage('查无此人或者身份证号输入错误')
+  }
+  SFvalue = ''
 
 }
-const handleXj = () => {
+
+
+//新建
+const xinJiaN = () => {
     
 }
 
@@ -215,7 +394,10 @@ const remove = () => {
 
 }
 
+const handleGuaHao = () => {
 
+}
+// 当日患者假数据
 const list = ref([
     {
         id:1,
@@ -239,6 +421,114 @@ const list = ref([
         ks:"内科"
     },
 ])
+
+//患者库假数据
+const hzk = ref([
+    {
+        id:1,
+        sfz:'211321200205061111',
+        name:"张三",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+    {
+        id:2,
+        sfz:'211321200205061112',
+        name:"王五",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+    {
+        id:3,
+        sfz:'211321200205061113',
+        name:"李四",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+    {
+        id:4,
+        sfz:'211321200205061114',
+        name:"赵六",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+    {
+        id:5,
+        sfz:'211321200205061115',
+        name:"田七",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+    {
+        id:6,
+        sfz:'211321200205061116',
+        name:"白八",
+        gender:"男",
+        age:"50",
+        ks:"内科"
+    },
+])
+
+
+// 新建校验
+
+
+const rules = reactive({
+  name: [
+    { required: true, message: '姓名不能为空', trigger: 'blur' },
+    
+  ],
+  xb: [
+    { required: true, message: '性别不能为空', trigger: 'blur' },
+    
+  ],
+  age: [
+    { required: true, message: '年龄不能为空', trigger: 'blur' },
+    
+  ],
+  tel: [
+    { required: true, message: '电话不能为空', trigger: 'blur' },
+    { pattern: telYz, message: '请输入正确的手机号', trigger: 'blur' }
+  ],
+  YB: [
+    { required: true, message: '医保卡号不能为空', trigger: 'blur' },
+    
+  ],
+  Zz: [
+    { required: true, message: '住址不能为空', trigger: 'blur' },
+    
+  ],
+  Jz: [
+    { required: true, message: '最后就诊时间不能为空', trigger: 'blur' },
+    
+  ],
+  Lxr: [
+    { required: true, message: '联系人不能为空', trigger: 'blur' },
+    
+  ],
+  LxrTel: [
+    { required: true, message: '联系人电话不能为空', trigger: 'blur' },
+    { pattern: telYz, message: '请输入正确的手机号', trigger: 'blur' }
+
+    
+  ],
+  LxrGx: [
+    { required: true, message: '与患者关系不能为空', trigger: 'blur' },
+    
+  ],
+  sfFormSRK: [
+    { required: true, message: '身份证号不能为空', trigger: 'blur' },
+    { pattern: sFyz, message: '请输入正确的身份证号', trigger: 'blur' }
+  ]
+
+})
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -278,13 +568,12 @@ const list = ref([
 }
 .JieSuaN{
     width: 200px;
-    height: 500px;
+    height: 800px;
     background:#dedfe0;
     padding: 10px;
     margin: 10px;
+    margin-top: 0px;
 }
-.bg{
-    background: #000;
-}
+
 
 </style>
