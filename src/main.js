@@ -17,6 +17,7 @@ const pinia = createPinia()
 
 import './assets/main.css'
 
+
 const app = createApp(App)
 
 // Element图标库
@@ -32,3 +33,4 @@ app.use(router)
 // Element
 app.use(ElementPlus)
 app.mount('#app')
+

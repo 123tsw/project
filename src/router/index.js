@@ -13,6 +13,7 @@ import DoctorZL from '@/views/DoctorZL.vue'
 
 
 
+import UserList from '@/views/UserList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,8 +63,12 @@ const router = createRouter({
           name: 'doctorzl',
           component: DoctorZL,
         },
-
-
+        {
+          path:'user/list',
+          name:'userlist',
+          component:UserList
+        }
+        
       ]
     },
     {
