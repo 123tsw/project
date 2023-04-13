@@ -11,6 +11,7 @@ import PatientTreatment from '@/views/PatientTreatment.vue'
 import DoctorZl from '@/views/DoctorZl.vue'
 import GuaHao from '@/views/GuaHao.vue'
 import UserList from '@/views/UserList.vue'
+import DepartmentMgt from '@/views/DepartmentMgt.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,41 +20,52 @@ const router = createRouter({
       path: '/',
       name: 'index',
       component: Index,
+      redirect:'/home',
       children: [
         {
           path: 'home',
           name: 'home',
           component: Home,
+          meta: {
+            breadcrumbs: ['首页']
+          }
         },
         {
-          path: 'medicine/cj',
-          name: 'medicineCj',
+          path: 'medicinecj',
+          name: 'medicinecj',
           component: MedicineCj,
+          meta: {
+            breadcrumbs: ['药品','厂家管理']
+          }
         },
         {
-          path: 'medicine/gl',
-          name: 'medicineGl',
+          path: 'medicinegl',
+          name: 'medicinegl',
           component: MedicineGl,
+          meta: {
+            breadcrumbs: ['药品','药品管理']
+          }
         },
         {
-          path: 'medicine/gy',
-          name: 'medicineGy',
+          path: 'medicinegy',
+          name: 'medicinegy',
           component: MedicineGy,
+          meta: {
+            breadcrumbs: ['药品','供应商管理']
+          }
         },
         {
           path: 'user',
           name: 'user',
           component: User,
+          meta: {
+            breadcrumbs: ['看病就诊','新开就诊']
+          }
         },
         {
           path:'patientTreatment',
           name:'patientTreatment',
           component:PatientTreatment,
-        },
-        {
-          path:'doctorZl',
-          name:'doctorZl',
-          component:DoctorZl
         },
         {
           path:'guaHao',
@@ -62,9 +74,45 @@ const router = createRouter({
         },
         {
           path:'user/list',
+          path:'userlist',
           name:'userlist',
-          component:UserList
-        }
+          component:UserList,
+          meta: {
+            breadcrumbs: ['看病就诊','患者库']
+          }
+        },
+        {
+          path:'patienttreatment',
+          name:'patienttreatment',
+          component:PatientTreatment,
+          meta: {
+            breadcrumbs: ['医生管理']
+          }
+        },
+        {
+          path:'doctorzL',
+          name:'doctorzL',
+          component:DoctorZl,
+          meta: {
+            breadcrumbs: ['医生管理','医生资料']
+          }
+        },
+        {
+          path:'departmentmgt',
+          name:'departmentmgt',
+          component:DepartmentMgt,
+          meta: {
+            breadcrumbs: ['科室管理']
+          }
+        },
+        {
+          path:'guaHao',
+          name:'guaHao',
+          component:GuaHao,
+          meta: {
+            breadcrumbs: ['挂号']
+          }
+        },
       ]
     },
     {
